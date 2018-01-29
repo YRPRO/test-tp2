@@ -40,7 +40,7 @@ UserRepository.prototype.create = function (user) {
  */
 UserRepository.prototype.findOneById = function (id) {
     if(!id)
-        throw 'Parameter id is require';
+        throw 'Parameter id is required';
 
     var finded = this.db.get('users')
             .find({ id: id })
@@ -53,6 +53,14 @@ UserRepository.prototype.findOneById = function (id) {
  * @param {User} user
  */
 UserRepository.prototype.update = function (user) {
+     if(!user)
+        throw 'Parameter user is required';
+
+    this.db
+        .get('users')
+        .find({ id: user.id })
+        .assign(user)
+        .write()
 
 };
 
