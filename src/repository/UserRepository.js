@@ -69,7 +69,11 @@ UserRepository.prototype.update = function (user) {
  * @param {number} id
  */
 UserRepository.prototype.delete = function (id) {
-
+    if(!id)
+        throw 'Parameter id is required';
+    this.db.get('users')
+        .remove({id: id })
+        .write()
 };
 
 

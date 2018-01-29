@@ -137,6 +137,46 @@ describe("UserRepository - update",function(){
 });
 
 
+describe("UserRepository - delete",function(){
+     var mockDb = jasmine.createSpyObj('db', ['get', 'push', 'write','find','assign','remove']);
+        mockDb.get.and.returnValue(mockDb);
+        mockDb.push.and.returnValue(mockDb);
+        mockDb.find.and.returnValue(mockDb);
+        mockDb.assign.and.returnValue(mockDb);
+        mockDb.remove.and.returnValue(mockDb);
+        var repository = new UserRepository(mockDb);
+
+
+       repository.create({
+            id : 1,
+            firstname: 'One',
+            lastname : 'One',
+            birthday : '2000-01-01'
+        });
+
+        
+        //check if id is present
+        it("Should throw exception Parameter id is required",function(){
+            var f = function(){
+                repository.delete();
+            }
+            expect(f).toThrow('Parameter id is required');
+        });
+
+
+        //check if mockDb.remove is properly called
+        it("UserRepository.update should call mockDb.remove",function(){
+            repository.delete(1);
+            expect(mockDb.remove).toHaveBeenCalledWith({
+                'id' : 1
+            });
+            expect(mockDb.remove).toHaveBeenCalledTimes(1)
+
+        });
+        
+});
+
+
 
 
         
