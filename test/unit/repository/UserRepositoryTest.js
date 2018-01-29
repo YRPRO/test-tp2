@@ -65,11 +65,11 @@ describe("UserRepository - findOneById",function(){
         repository.create(one);
         
         //check if id is present
-        it("Should throw exception Parameter id is require",function(){
+        it("Should throw exception Parameter id is required",function(){
             var f = function(){
                 repository.findOneById();
             }
-            expect(f).toThrow('Parameter id is require');
+            expect(f).toThrow('Parameter id is required');
         });
 
 
@@ -88,15 +88,55 @@ describe("UserRepository - findOneById",function(){
            expect(res).toBeDefined();
         })
 
-
-        //check if value of returned object is correct
-        /*
-        it("UserRepository.findOneById(1) should be equal to object one",function(){
-           var res = repository.findOneById(1);
-           expect(res).toEqual(one);
-        })
-        */
-
         
 });
+
+describe("UserRepository - update",function(){
+    var mockDb = jasmine.createSpyObj('db', ['get', 'push', 'write','find','assign']);
+        mockDb.get.and.returnValue(mockDb);
+        mockDb.push.and.returnValue(mockDb);
+        mockDb.find.and.returnValue(mockDb);
+        mockDb.assign.and.returnValue(mockDb);
+        var repository = new UserRepository(mockDb);
+
+
+       repository.create({
+            id : 1,
+            firstname: 'One',
+            lastname : 'One',
+            birthday : '2000-01-01'
+        });
+
+        
+        //check if user is present
+        it("Should throw exception Parameter user is required",function(){
+            var f = function(){
+                repository.update();
+            }
+            expect(f).toThrow('Parameter user is required');
+        });
+
+
+        //check if mockDb.write is properly called
+        it("UserRepository.update should call mockDb.write",function(){
+            repository.update({
+                id : 1,
+                firstname: 'One',
+                lastname : 'One',
+                birthday : '2000-01-01'
+            });
+            expect(mockDb.assign).toHaveBeenCalledWith({
+                id : 1,
+                firstname: 'One',
+                lastname : 'One',
+                birthday : '2000-01-01'
+            });
+            expect(mockDb.assign).toHaveBeenCalledTimes(1)
+        })
+ 
+});
+
+
+
+
         
