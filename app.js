@@ -57,11 +57,14 @@ app
 
     //suppression d'un utilisateur
     .delete(function (req, res) {
-        /**
-         * Implémenter le controlleur
-         */
-
-        res.send('Not implemented');
+        /*
+        * Implementation du controleur .delete
+        */
+        var id = req.params.id;
+        var repository = new UserRepository(db);
+        var user = repository.delete(id);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.send('Delete successfull');
     });
 
 
