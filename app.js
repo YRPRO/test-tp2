@@ -20,7 +20,10 @@ app
         var repository = new UserRepository(db);
         var user = repository.findOneById(id);
         res.header("Access-Control-Allow-Origin", "*");
-        res.send(user);
+        if(!user)
+            res.send("User do not exist");
+        else
+            res.send(user);
     })
 
     // Creation d'un utilisateur
