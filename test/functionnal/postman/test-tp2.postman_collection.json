@@ -1,0 +1,274 @@
+{
+	"info": {
+		"name": "test-tp2",
+		"_postman_id": "a2b00e74-fdaa-34c6-0777-6fc92e7a6b16",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6b821e24-4a64-4450-8520-6f1b64bab8d6",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Response should be okay', function () {",
+							"    pm.response.to.have.status(200)",
+							"    pm.response.to.have.status('OK')",
+							"});",
+							"",
+							"pm.test('Response should contain id', function () {",
+							"    pm.response.to.have.jsonBody('id')",
+							"});",
+							"",
+							"var response = pm.response.json();",
+							"pm.globals.set('id', response.id)",
+							"pm.globals.set('firstname', response.firstname)",
+							"pm.globals.set('lastname', response.lastname)",
+							"pm.globals.set('birthday', response.birthday)",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "firstname",
+							"value": "John",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "doe",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "birthday",
+							"value": "2001-01-10",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b98196bf-4a05-47b2-a580-a4f70c4ca82e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Response should be okay', function () {",
+							"    pm.response.to.have.status(200)",
+							"    pm.response.to.have.status('OK')",
+							"});",
+							"",
+							"if( responseBody == \"User do not exist\"){",
+							"    pm.test('Response should be User do not exist', function () {",
+							"        pm.response.to.have.body(\"User do not exist\");",
+							"    });",
+							"}",
+							"else{",
+							"    pm.test('Response should contain id', function () {",
+							"        pm.response.to.have.jsonBody('id')",
+							"    });",
+							"",
+							"    pm.test('Response should contain fistname', function () {",
+							"        pm.response.to.have.jsonBody('firstname')",
+							"    });",
+							"    pm.test('Response should contain lastname', function () {",
+							"        pm.response.to.have.jsonBody('lastname')",
+							"    });",
+							"    pm.test('Response should contain birtday', function () {",
+							"        pm.response.to.have.jsonBody('birthday')",
+							"    });",
+							"",
+							"//test des reponse obtenues",
+							"    var response = pm.response.json();",
+							"",
+							"    pm.test('Response fistname should be equal to global firstname', function () {",
+							"        pm.expect(pm.globals.get('firstname')).to.equal(response.firstname)",
+							"    });",
+							"",
+							"    pm.test('Response lastname should be equal to global lastname', function () {",
+							"        pm.expect(pm.globals.get('lastname')).to.equal(response.lastname)",
+							"    });",
+							"",
+							"    pm.test('Response birthday should be equal to global birthday', function () {",
+							"        pm.expect(pm.globals.get('birthday')).to.equal(response.birthday)",
+							"    });",
+							"",
+							"}",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/user/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"{{id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Put User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1db63150-2655-4c0f-936d-cfa26ea200e3",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Response should be okay', function () {",
+							"    pm.response.to.have.status(200)",
+							"    pm.response.to.have.status('OK')",
+							"});",
+							"",
+							"pm.test('Response should be Update successfull', function () {",
+							"   pm.response.to.have.body(\"Update successfull\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "{{id}}",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "firstname",
+							"value": "Marc",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "lastname",
+							"value": "Doe",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "birthday",
+							"value": "2018-01-01",
+							"type": "text",
+							"description": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59852f10-dc18-4790-b349-f312f64fed28",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Response should be okay', function () {",
+							"    pm.response.to.have.status(200)",
+							"    pm.response.to.have.status('OK')",
+							"});",
+							"",
+							"",
+							"pm.test('Response should be Delete successfull', function () {",
+							"   pm.response.to.have.body(\"Delete successfull\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/user/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"{{id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
